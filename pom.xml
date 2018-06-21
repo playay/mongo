@@ -5,11 +5,11 @@
 
     <groupId>io.feling</groupId>
     <artifactId>mongo</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>mongo</name>
-    <description>mongoClient with pojoCodec, JodaTimeCodec etc.</description>
+    <description>mongoClient with PojoCodec(official), JodaTimeCodec(customize) etc.</description>
     <url>https://github.com/playay/mongo</url>
     <organization>
         <name>feling</name>
