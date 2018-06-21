@@ -7,10 +7,11 @@ import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import io.feling.mongo.codec.JacksonCodecProvider;
+import io.feling.mongo.codec.JodaTimeCodec;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,7 +46,8 @@ public class MongoClients {
 
         private static CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
                 MongoClient.getDefaultCodecRegistry(),
-                CodecRegistries.fromProviders(new JacksonCodecProvider())
+                CodecRegistries.fromCodecs(new JodaTimeCodec()),
+                CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build())
         );
 
         private static MongoClientURI mongoClientURI = new MongoClientURI(
@@ -64,7 +66,9 @@ public class MongoClients {
 
     public static <TDocument> MongoCollection<TDocument> getCollection(String collectionName, Class<TDocument> clazz) {
         try {
-            return mongoCollectionCache.get(collectionName, () -> MongoClientHolder.mongoDatabase.getCollection(collectionName, clazz));
+            return mongoCollectionCache.get(collectionName + clazz.toString(),
+                    () -> MongoClientHolder.mongoDatabase.getCollection(collectionName, clazz)
+            );
         } catch (ExecutionException e) {
             log.warn("从本地缓存获取 MongoCollection 发生异常", e);
             return MongoClientHolder.mongoDatabase.getCollection(collectionName, clazz);

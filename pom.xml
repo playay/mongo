@@ -9,11 +9,11 @@
     <packaging>jar</packaging>
 
     <name>mongo</name>
-    <description>mongoClient with pojo codec by bson4jackson</description>
+    <description>mongoClient with pojoCodec, JodaTimeCodec etc.</description>
     <url>https://github.com/playay/mongo</url>
     <organization>
         <name>feling</name>
-        <url>http://feling.io</url>
+        <url>https://feling.io</url>
     </organization>
     <licenses>
         <license>
@@ -40,12 +40,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>de.undercouch</groupId>
-            <artifactId>bson4jackson</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
@@ -124,7 +118,7 @@
 
     <profiles>
         <profile>
-            <id>maven-center</id>
+            <id>maven-center-oss</id>
             <build>
                 <plugins>
                     <!-- Source -->
